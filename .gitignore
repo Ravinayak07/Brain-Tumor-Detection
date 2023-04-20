@@ -1,2 +1,4 @@
 # dotenv environment variables folder
 env/
+
+src/
