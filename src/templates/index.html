@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Brain Tumor Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            margin: 0;
+            color: #3d0592fa;
+        }
+
+        p {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .button-container>a {
+            text-decoration: none;
+        }
+
+        .button {
+            padding: 20px 40px;
+            width: 350px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            background-color: #3F51b5;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0822b5;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <h1>Brain Tumor Detection</h1>
+        <p>Selct any option:</p>
+        <div class="button-container">
+            <a href="binary.html" class="button">Binary Classification</a>
+            <a href="multi.html" class="button">Multi-Modal Classification</a>
+            <a href="segment.html" class="button">Brain Tumor Segmentation</a>
+        </div>
+    </div>
+</body>
+
+</html>
