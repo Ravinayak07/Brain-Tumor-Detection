@@ -15,6 +15,8 @@ multiModel = None
 dt = DisplayTumor()
 
 # Define a function to load the pre-trained model
+
+
 def initialize_model():
     global model, multiModel
     model = load_model('epoch10_sgd_acc96Point76.h5')
@@ -25,6 +27,8 @@ def initialize_model():
 initialize_model()
 
 # Define a function to preprocess the binary input image
+
+
 def preprocess_binary_image(image):
     image = image.resize((128, 128))
     image = np.array(image)
@@ -47,7 +51,6 @@ def preprocess_multiClass_image(image):
     image = image / 255
     image = np.expand_dims(image, axis=0)
     return [image, image, image]
-
 
 
 @app.route('/', methods=['GET'])
@@ -74,9 +77,9 @@ def binary():
 
         # Return the prediction result as a string
         if predicted_class == 0:
-            return jsonify({'result': 'No tumor detected'})
+            return jsonify({'result': 'No Tumor Detected'})
         else:
-            return jsonify({'result': 'Tumor detected'})
+            return jsonify({'result': 'Tumor Detected'})
 
     # If the user opens the home page
     else:
@@ -115,6 +118,7 @@ def multi():
         # Return the HTML/CSS/JS code for the home page
         return render_template('multi.html')
 
+
 @app.route('/segment.html', methods=['GET', 'POST'])
 def segment():
     if request.method == 'POST':
@@ -133,16 +137,7 @@ def segment():
         return img_base64
     return render_template('segment.html')
 
+
 # Run the Flask application
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-

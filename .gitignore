@@ -1,4 +1,7 @@
 # dotenv environment variables folder
 env/
 
-src/
+
+src/epoch10_adam_acc96Point4.h5
+src/epoch10_sgd_acc96Point76.h5
+src/multi-model-30K-epouch20.h5
