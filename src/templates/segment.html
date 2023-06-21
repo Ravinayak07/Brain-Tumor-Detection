@@ -126,6 +126,19 @@
       font-weight: bold;
       margin-bottom: 40px;
     }
+
+    #displayPercent {
+      text-align: center;
+      font-weight: 700;
+      font-size: 20px;
+
+    }
+
+    #grade {
+      text-align: center;
+      font-weight: 700;
+      font-size: 20px;
+    }
   </style>
 </head>
 
@@ -135,11 +148,6 @@
       <img src="static/images/logo.png" style="width: 40px; float: left;">
       <a href="#" style="float: left;">Brain Tumor Segmentation</a>
     </div>
-    <!-- <div class="topnav_right">
-      <a href="#">Chart</a>
-      <a href="#">Performance Analysis</a>
-      <a href="#">Home</a>
-    </div> -->
   </div>
   <form method="post" enctype="multipart/form-data">
     <span id="container">
@@ -151,18 +159,35 @@
       <h1 id="output">OUTPUT</h1>
       <img id="result" style="display: none;">
     </span>
-
   </form>
+  <p id="displayPercent" style="display: none;"></p><br>
+  <p id="grade" style="display: none;"></p>
 
-  </div>
+
   <script>
-
-    function display_result(result) {
+    function display_result(tumorImage, tumorPercent) {
       var img = document.getElementById('result');
       img.style.display = "block";
-      img.src = "data:image/jpg;base64," + result;
+      img.src = "data:image/jpg;base64," + tumorImage;
       img.width = 300;
       img.height = 300;
+
+      var percent = document.getElementById('displayPercent');
+      tumorPercent = parseInt(100 - tumorPercent);
+      percent.innerHTML = `Tumor Percentage: ${tumorPercent}%`;
+      percent.style.display = "block";
+
+      var grade = document.getElementById('grade');
+
+      if (tumorPercent >= 30) {
+        grade.innerHTML = "High Grade Glioma";
+      }
+      else {
+        grade.innerHTML = "Low Grade Glioma";
+      }
+
+      grade.style.display = "block";
+
     }
 
     $(function () {
@@ -174,6 +199,12 @@
         res.src = "";
         res.width = "";
         res.height = "";
+
+        var percent = document.getElementById('displayPercent');
+        percent.innerHTML = "";
+
+        var grade = document.getElementById('grade');
+        grade.innerHTML = "";
 
         var reader = new FileReader();
         reader.onload = function () {
@@ -188,10 +219,8 @@
 
       // Bind the function to the form submit event
       $('form').on('submit', function (e) {
-        console.log("Submit pressed");
         e.preventDefault();
         var form_data = new FormData(this);
-        console.log(form_data);
         $.ajax({
           type: 'POST',
           url: '/segment.html',
@@ -200,7 +229,8 @@
           contentType: false,
           processData: false,
           success: function (data) {
-            display_result(data);
+            console.log(data);
+            display_result(data.img_base64, data.tumor_percentage);
           }
         });
       });

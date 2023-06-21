@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 
 
-class DisplayTumor:
+class DisplayDisease:
     curImg = 0
     Img = 0
 
@@ -10,7 +10,7 @@ class DisplayTumor:
         if isinstance(img, np.ndarray):
             self.Img = np.array(img)
             self.curImg = np.array(img)
-            gray = cv.cvtColor(np.array(img), cv.COLOR_BGR2GRAY)
+            gray = cv.cvtColor(np.array(img), cv.COLOR_RGB2GRAY)  # Update color conversion if needed
             self.ret, self.thresh = cv.threshold(
                 gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         else:
@@ -22,6 +22,7 @@ class DisplayTumor:
     # noise removal
     def removeNoise(self):
         if self.thresh is not None:
+            # Adjust kernel and iterations for morphological operations based on the disease characteristics
             self.kernel = np.ones((3, 3), np.uint8)
             opening = cv.morphologyEx(
                 self.thresh, cv.MORPH_OPEN, self.kernel, iterations=2)
@@ -29,7 +30,7 @@ class DisplayTumor:
         else:
             raise ValueError("Input image not initialized")
 
-    def displayTumor(self):
+    def displayDisease(self):
         if self.curImg is not None:
             # sure background area
             sure_bg = cv.dilate(self.curImg, self.kernel, iterations=3)
@@ -54,7 +55,18 @@ class DisplayTumor:
             markers = cv.watershed(self.Img, markers)
             self.Img[markers == -1] = [255, 0, 0]
 
-            tumorImage = cv.cvtColor(self.Img, cv.COLOR_HSV2BGR)
-            self.curImg = tumorImage
+            # Update color conversion if needed
+            diseaseImage = cv.cvtColor(self.Img, cv.COLOR_HSV2BGR)  # Update color conversion if needed
+            self.curImg = diseaseImage
+        else:
+            raise ValueError("Input image not initialized")
+
+    def calculateDiseasePercentage(self):
+        if self.Img is not None:
+            gray = cv.cvtColor(self.Img, cv.COLOR_BGR2GRAY)
+            _, binary = cv.threshold(gray, 1, 255, cv.THRESH_BINARY)
+            diseasePercentage = round(
+                (cv.countNonZero(binary) / (binary.shape[0] * binary.shape[1])) * 100, 2)
+            return diseasePercentage
         else:
             raise ValueError("Input image not initialized")

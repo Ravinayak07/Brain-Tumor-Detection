@@ -5,14 +5,13 @@ import numpy as np
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 from PIL import Image
 from tensorflow.keras.models import load_model
-from DisplayTumor import DisplayTumor
-
+from DisplayDisease import DisplayDisease
 
 # Create the Flask application
 app = Flask(__name__)
 model = None
 multiModel = None
-dt = DisplayTumor()
+dt = DisplayDisease()
 
 # Define a function to load the pre-trained model
 
@@ -121,6 +120,8 @@ def multi():
 
 @app.route('/segment.html', methods=['GET', 'POST'])
 def segment():
+    img_base64 = ""
+    tumor_percentage = 0
     if request.method == 'POST':
         if 'image' not in request.files:
             return "Please select an image file."
@@ -131,11 +132,13 @@ def segment():
             file.read(), np.uint8), cv.IMREAD_UNCHANGED)
         dt.readImage(img)
         dt.removeNoise()
-        dt.displayTumor()
+        dt.displayDisease()
+        tumor_percentage = dt.calculateTumorPercentage()
         img_str = cv.imencode('.jpg', dt.getImage())[1].tostring()
         img_base64 = base64.b64encode(img_str).decode()
-        return img_base64
+        return {'img_base64': img_base64, 'tumor_percentage': tumor_percentage}
     return render_template('segment.html')
+
 
 
 # Run the Flask application
