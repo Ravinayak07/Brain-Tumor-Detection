@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Binary Classification</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("static/images/plane2.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Style the top navigation bar */
+    .topnav {
+      background-color: #3F51b5;
+      border-radius: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .topnav_left {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Style the links in the navigation bar */
+    .topnav a {
+      float: right;
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 0px 16px;
+      text-decoration: none;
+      font-size: 20px;
+    }
+
+    /* Change the color of the links on hover */
+    .topnav a:hover {
+      color: #ffa8be;
+
+    }
+
+    h1 {
+      /* color: #76d5cb; */
+      color: #ffa8be;
+      margin: 0;
+      text-align: center;
+      /* center align horizontally */
+      flex-grow: 1;
+      /* take up remaining horizontal space */
+    }
+
+    h2 {
+      font-family: "Montserrat Medium";
+      max-width: 40ch;
+      text-align: left;
+      transform: scale(0.94);
+      animation: scale 6s forwards cubic-bezier(0.5, 1, 0.89, 1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    input[type="file"] {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 12px;
+      background-color: #3F51b5;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 40px;
+    }
+
+    form>img {
+      border: 6px solid #3F51b5;
+      border-radius: 5px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #3F51b5;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #333;
+    }
+
+    form>h2 {
+      padding: 10px 20px;
+      font-size: 30px;
+      transform: scale(1);
+    }
+
+    .button:hover {
+      background-color: #0822b5;
+      color: whitesmoke;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .container>img {
+      border-style: none;
+      box-shadow: none;
+
+    }
+
+
+    /* New Style */
+
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
+    @keyframes scale {
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    span {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(4px);
+    }
+
+    span:nth-child(1) {
+      animation: fade-in 0.8s 0.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(2) {
+      animation: fade-in 0.8s 0.3s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(3) {
+      animation: fade-in 0.8s 0.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(4) {
+      animation: fade-in 0.8s 0.7s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(5) {
+      animation: fade-in 0.8s 0.9s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(6) {
+      animation: fade-in 0.8s 1.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(7) {
+      animation: fade-in 0.8s 1.3s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(8) {
+      animation: fade-in 0.8s 1.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(9) {
+      animation: fade-in 0.8s 1.7s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(10) {
+      animation: fade-in 0.8s 1.9s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(11) {
+      animation: fade-in 0.8s 2.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(12) {
+      animation: fade-in 0.8s 2.3s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    span:nth-child(13) {
+      animation: fade-in 0.8s 2.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    @keyframes fade-in {
+      100% {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+
+    #symptoms {
+      background-color: #3F51b5;
+      width: fit-content;
+      padding: 20px;
+      border-radius: 10px;
+      float: right;
+      width: 400px;
+      height: fit-content;
+      color: whitesmoke;
+
+    }
+
+    #treatment {
+      background-color: #3F51b5;
+      width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      float: right;
+      height: fit-content;
+      color: whitesmoke;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topnav">
+    <div class="topnav_left">
+      <img src="static/images/logo.png" style="width: 40px; float: left;">
+      <a href="#" style="float: left;">Binary Classification</a>
+    </div>
+    <!-- <div class="topnav_right">
+      <a href="#">Chart</a>
+      <a href="#">Performance Analysis</a>
+      <a href="#">Home</a>
+    </div> -->
+  </div>
+  <div class="container">
+    <div id="symptoms" style="display: none;">
+      <h1>SYMPTOMS</h1>
+      <h3>
+        <span>1) Headache: can be persistent or severe</span><br>
+        <span>2) Muscular: difficulty in walking</span><br>
+        <span>3) Cognitive: inability to speak</span><br>
+        <span>4) Gastrointestinal: nausea or vomiting</span><br>
+        <span>5) Whole body: dizziness, fatigue, or vertigo</span><br>
+        <span>6) Sensory: pins and needles or reduced sensation of touch </span><br>
+      </h3>
+    </div>
+    <form method="post" enctype="multipart/form-data" id="uploadImage">
+      <input type="file" name="image" id="image-input" accept="image/*" required>
+      <img id="image-preview" width="300" height="300">
+      <button type="submit">Detect</button>
+      <h2 id="result"></h2>
+    </form>
+    <div id="treatment" style="display: none;">
+      <h1>TREATMENT</h1>
+      <h3>
+        <span>1) Surgery</span><br>
+        <span>2) Chemotherapy</span><br>
+        <span>3) Clinical trials</span><br>
+        <span>4) Radiation therapy</span><br>
+        <span>5) Targeted drug therapy</span><br>
+        <span>6) Tumor treating fields</span><br>
+        <span>7) Follow-up care and rehabilitation</span><br>
+      </h3>
+    </div>
+
+  </div>
+  <script>
+    const symptomsSection = document.getElementById("symptoms");
+    const treatmentSection = document.getElementById("treatment");
+    function display_result(result) {
+      var res = document.getElementById('result');
+      console.log(res);
+      res.innerHTML = result.result;
+
+      if (result.result == "Tumor Detected") {
+        res.style.color = "red";
+        symptomsSection.style.display = "block";
+        treatmentSection.style.display = "block";
+      }
+      else res.style.color = "green";
+    }
+
+    $(function () {
+      // Function to preview the uploaded image
+      function preview_image(event) {
+
+        // Reset the displayed result
+        var res = document.getElementById('result');
+        res.innerHTML = "";
+
+        symptomsSection.style.display = "none";
+        treatmentSection.style.display = "none";
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          var output = document.getElementById('image-preview');
+          output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+      }
+      // Bind the function to the file input
+      var file_input = document.getElementById('image-input');
+      file_input.addEventListener('change', preview_image);
+
+      // Bind the function to the form submit event
+      $('form').on('submit', function (e) {
+        e.preventDefault();
+        var form_data = new FormData(this);
+        $.ajax({
+          type: 'POST',
+          url: '/binary.html',
+          data: form_data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            display_result(data);
+          }
+        });
+      });
+    });
+
+  </script>
+</body>
+
+</html>
